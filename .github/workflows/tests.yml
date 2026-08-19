@@ -1,0 +1,22 @@
+name: Testes de Automacao
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Instalar browsers
+        run: playwright install --with-deps chromium
+      - name: Correr testes API
+        run: pytest tests/api/ -m api --tb=short
