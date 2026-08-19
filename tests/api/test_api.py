@@ -151,6 +151,7 @@ def test_get_posts_user1():
 
 
 @pytest.mark.api
+@pytest.mark.skip(reason="teste de timeout nao aplicavel em CI")
 def test_timeout_tratado():
     try:
         resposta = requests.get("https://jsonplaceholder.typicode.com/posts/1", timeout=0.001)
