@@ -155,5 +155,5 @@ def test_timeout_tratado():
     try:
         resposta = requests.get("https://jsonplaceholder.typicode.com/posts/1", timeout=0.001)
         assert resposta.status_code == 200
-    except requests.exceptions.Timeout:
+    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
         pytest.fail("API nao respondeu a tempo - timeout")
