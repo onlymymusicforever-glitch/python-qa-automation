@@ -1,7 +1,6 @@
 import requests
 import pytest
 
-@pytest.mark.api
 @pytest.fixture
 def chamada_api(request):
     url = request.param
