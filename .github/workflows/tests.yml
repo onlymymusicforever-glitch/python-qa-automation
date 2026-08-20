@@ -20,3 +20,5 @@ jobs:
         run: playwright install --with-deps chromium
       - name: Correr testes API
         run: pytest tests/api/ -m api --tb=short
+      - name: Correr testes UI
+        run: pytest tests/ui/ -m ui --tb=short

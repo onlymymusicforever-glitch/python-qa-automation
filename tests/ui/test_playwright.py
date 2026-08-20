@@ -70,6 +70,7 @@ def test_login_invalido(page: Page):
 
 
 @pytest.mark.smoke
+@pytest.mark.ui
 def test_login_valido_logout(page: Page):
     page.goto(f"{base_url}/login")
     page.get_by_role("textbox", name="Username").fill("tomsmith")
