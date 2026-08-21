@@ -32,3 +32,20 @@ jobs:
       - name: Gerar relatorio Allure
         if: always()
         run: allure generate allure-results --clean -o allure-report
+
+      - name: Enviar email com resultado
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USER }}
+          password: ${{ secrets.GMAIL_PASSWORD }}
+          subject: "Testes de Automacao - ${{ job.status }}"
+          to: ${{ secrets.GMAIL_USER }}
+          from: ${{ secrets.GMAIL_USER }}
+          body: |
+            Pipeline: ${{ job.status }}
+            Repositorio: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Ver detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
