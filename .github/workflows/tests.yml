@@ -11,6 +11,9 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -32,19 +35,18 @@ jobs:
 
       - name: Instalar Allure CLI
         if: always()
-        run: |
-          npm install -g allure-commandline
+        run: npm install -g allure-commandline
 
       - name: Gerar relatorio Allure
         if: always()
         run: allure generate allure-results --clean -o allure-report
 
-      - name: Publicar relatorio como artefacto
+      - name: Publicar no GitHub Pages
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: allure-report
-          path: allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
 
       - name: Enviar email com resultado
         if: always()
@@ -61,4 +63,3 @@ jobs:
             Pipeline: ${{ job.status }}
             Repositorio: ${{ github.repository }}
             Commit: ${{ github.sha }}
-            Ver detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
