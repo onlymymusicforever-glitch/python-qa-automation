@@ -25,12 +25,10 @@ jobs:
       - name: Correr testes UI
         if: always()
         run: pytest tests/ui/ -m ui --tb=short --alluredir=allure-results
+      - name: Instalar Allure CLI
+        if: always()
+        run: |
+          npm install -g allure-commandline
       - name: Gerar relatorio Allure
         if: always()
         run: allure generate allure-results --clean -o allure-report
-      - name: Publicar relatorio como artefacto
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
