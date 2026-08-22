@@ -1,7 +1,6 @@
 from playwright.sync_api import Page, expect
 from pages.playwright_page import PlaywrightPage
 import os
-base_url = os.environ.get("BASE_URL", "https://the-internet.herokuapp.com")
 import pytest
 
 @pytest.mark.ui
@@ -61,8 +60,8 @@ def test_screenshot(page: Page):
     assert os.path.exists("screenshots/playwright_docs.png")
 
 @pytest.mark.ui
-def test_login_invalido(page: Page):
-    page.goto("https://the-internet.herokuapp.com/login")
+def test_login_invalido(page: Page, base_url):
+    page.goto(f"{base_url}/login")
     page.get_by_role("textbox", name="Username").fill("admin")
     page.get_by_role("textbox", name="Password").fill("admin123")
     page.get_by_role("button", name=" Login").click()
@@ -71,7 +70,7 @@ def test_login_invalido(page: Page):
 
 @pytest.mark.smoke
 @pytest.mark.ui
-def test_login_valido_logout(page: Page):
+def test_login_valido_logout(page: Page, base_url):
     page.goto(f"{base_url}/login")
     page.get_by_role("textbox", name="Username").fill("tomsmith")
     page.get_by_role("textbox", name="Password").fill("SuperSecretPassword!")

@@ -1,5 +1,12 @@
 import pytest
 import os
+import config.config
+
+@pytest.fixture(scope="session")
+def base_url():
+    return os.environ.get("BASE_URL")
+
+
 os.makedirs("screenshots", exist_ok=True)
 
 @pytest.fixture
